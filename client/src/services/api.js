@@ -77,7 +77,9 @@ export const returnBook = (bookId) => apiCall('/books/return', {
   method: 'POST',
   body: JSON.stringify({ bookId }),
 });
-export const getUserBorrowedBooks = () => apiCall('/books/borrowed');
+export const getUserBorrowedBooks = () => apiCall('/books/borrowed', {
+  method: 'GET'
+});
 
 // Analytics APIs
 export const getTopUsers = () => apiCall('/analytics/top-users');

@@ -17,16 +17,11 @@ function App() {
   // Check if user is already logged in
   useEffect(() => {
     const token = localStorage.getItem('token');
-    console.log('Token from localStorage:', token);
     if (token) {
-      // In a real app, you would validate the token with the server
-      // For now, we'll just check if it exists
       try {
         const userString = localStorage.getItem('user');
-        console.log('User string from localStorage:', userString);
         if (userString) {
           const storedUser = JSON.parse(userString);
-          console.log('Stored user from localStorage:', storedUser);
           setCurrentUser(storedUser);
           
           // Check if user is admin (first user or has admin email)
@@ -47,7 +42,6 @@ function App() {
   }, []);
 
   const handleLogin = (user) => {
-    console.log('User data from login:', user);
     setCurrentUser(user);
     localStorage.setItem('user', JSON.stringify(user));
     localStorage.setItem('token', user.token);
@@ -99,19 +93,19 @@ function App() {
 
   // Regular user interface
   return (
-    <div className="min-h-screen bg-gray-100">
-      <div className="container mx-auto px-4 py-8">
-        <header className="mb-8 text-center">
-          <div className="flex justify-between items-center">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+      <div className="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
+        <header className="mb-8">
+          <div className="flex justify-between items-center bg-white rounded-xl shadow-lg p-6">
             <div>
-              <h1 className="text-3xl font-bold text-gray-800">Library Borrowing System</h1>
+              <h1 className="text-3xl font-bold text-gray-900">Library Borrowing System</h1>
               <p className="text-gray-600 mt-2">Manage book borrowing and returns</p>
             </div>
             <div className="text-right">
-              <p className="text-gray-700">Welcome, {currentUser.name}</p>
+              <p className="text-gray-700 font-medium">Welcome, {currentUser.name}</p>
               <button
                 onClick={handleLogout}
-                className="mt-1 text-sm text-indigo-600 hover:text-indigo-800"
+                className="mt-2 px-4 py-2 bg-gradient-to-r from-red-500 to-red-600 text-white rounded-lg hover:from-red-600 hover:to-red-700 transition-all duration-200 shadow-md text-sm"
               >
                 Logout
               </button>
@@ -126,17 +120,19 @@ function App() {
             onUserSelect={handleUserSelect} 
           />
           
-          <BookList 
-            selectedUser={selectedUser} 
-            onBookAction={handleBookAction}
-            key={`booklist-${refreshKey}`}
-          />
-          
-          <BorrowedBooks 
-            selectedUser={selectedUser} 
-            onBookAction={handleBookAction}
-            key={`borrowed-${refreshKey}`}
-          />
+          <div className="mt-8 space-y-8">
+            <BookList 
+              selectedUser={selectedUser} 
+              onBookAction={handleBookAction}
+              key={`booklist-${refreshKey}`}
+            />
+            
+            <BorrowedBooks 
+              selectedUser={selectedUser} 
+              onBookAction={handleBookAction}
+              key={`borrowed-${refreshKey}`}
+            />
+          </div>
         </main>
       </div>
     </div>

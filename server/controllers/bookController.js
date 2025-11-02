@@ -86,6 +86,12 @@ const deleteBook = async (req, res) => {
 const borrowBook = async (req, res) => {
   try {
     const { bookId } = req.body;
+    
+    // Check if user is authenticated
+    if (!req.user) {
+      return res.status(401).json({ message: 'User not authenticated' });
+    }
+    
     const userId = req.user.id; // Get user ID from authenticated user
 
     // Check if user exists
@@ -131,6 +137,7 @@ const borrowBook = async (req, res) => {
 
     res.json({ message: 'Book borrowed successfully', book });
   } catch (error) {
+    console.error('Error borrowing book:', error);
     res.status(500).json({ message: 'Error borrowing book', error: error.message });
   }
 };
@@ -139,6 +146,12 @@ const borrowBook = async (req, res) => {
 const returnBook = async (req, res) => {
   try {
     const { bookId } = req.body;
+    
+    // Check if user is authenticated
+    if (!req.user) {
+      return res.status(401).json({ message: 'User not authenticated' });
+    }
+    
     const userId = req.user.id; // Get user ID from authenticated user
 
     // Check if user exists
@@ -175,6 +188,7 @@ const returnBook = async (req, res) => {
 
     res.json({ message: 'Book returned successfully', book });
   } catch (error) {
+    console.error('Error returning book:', error);
     res.status(500).json({ message: 'Error returning book', error: error.message });
   }
 };
@@ -182,6 +196,11 @@ const returnBook = async (req, res) => {
 // Get borrowed books for a user
 const getUserBorrowedBooks = async (req, res) => {
   try {
+    // Check if user is authenticated
+    if (!req.user) {
+      return res.status(401).json({ message: 'User not authenticated' });
+    }
+    
     const userId = req.user.id; // Get user ID from authenticated user
 
     // Check if user exists
@@ -197,6 +216,7 @@ const getUserBorrowedBooks = async (req, res) => {
     
     res.json(borrowedBooks);
   } catch (error) {
+    console.error('Error fetching borrowed books:', error);
     res.status(500).json({ message: 'Error fetching borrowed books', error: error.message });
   }
 };
